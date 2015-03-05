@@ -7,7 +7,6 @@
 
 namespace cebe\markdown\tests;
 
-use cebe\markdown\Parser;
 use cebe\markdown\Creole;
 
 /**
@@ -95,7 +94,7 @@ class CreoleTest extends \PHPUnit_Framework_TestCase
 	public function getTestData($path, $file)
 	{
 		return [
-			file_get_contents($this->getDataPaths()[$path] . '/' . $file . '.md'),
+			file_get_contents($this->getDataPaths()[$path] . '/' . $file . '.txt'),
 			file_get_contents($this->getDataPaths()[$path] . '/' . $file . $this->outputFileExtension),
 		];
 	}
@@ -113,8 +112,8 @@ class CreoleTest extends \PHPUnit_Framework_TestCase
 					continue;
 				}
 
-				if (substr($file, -3, 3) === '.md' && file_exists($src . '/' . substr($file, 0, -3) .  $this->outputFileExtension)) {
-					$files[] = [$name, substr($file, 0, -3)];
+				if (substr($file, -4, 4) === '.txt' && file_exists($src . '/' . substr($file, 0, -4) .  $this->outputFileExtension)) {
+					$files[] = [$name, substr($file, 0, -4)];
 				}
 			}
 			closedir($handle);

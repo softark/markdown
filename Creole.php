@@ -32,9 +32,9 @@ class Creole extends Parser
 //		consumeHr as protected consumeAHr;
 //	}
 //
-//	// include inline element parsing using traits
+// include inline element parsing using traits
 //	use inline\CodeTrait;
-//	use inline\EmphStrongTrait;
+	use creole\inline\EmphStrongTrait;
 //	use inline\LinkTrait;
 
 	/**
@@ -49,19 +49,19 @@ class Creole extends Parser
 	 * as markdown.
 	 */
 	protected $escapeCharacters = [
-		'\\', // backslash
-		'`', // backtick
-		'*', // asterisk
-		'_', // underscore
-		'{', '}', // curly braces
-		'[', ']', // square brackets
-		'(', ')', // parentheses
-		'#', // hash mark
-		'+', // plus sign
-		'-', // minus sign (hyphen)
-		'.', // dot
-		'!', // exclamation mark
-		'<', '>',
+//		'\\', // backslash
+//		'`', // backtick
+//		'*', // asterisk
+//		'_', // underscore
+//		'{', '}', // curly braces
+//		'[', ']', // square brackets
+//		'(', ')', // parentheses
+//		'#', // hash mark
+//		'+', // plus sign
+//		'-', // minus sign (hyphen)
+//		'.', // dot
+//		'!', // exclamation mark
+//		'<', '>',
 	];
 
 
@@ -70,8 +70,8 @@ class Creole extends Parser
 	 */
 	protected function prepare()
 	{
-		// reset references
-		$this->references = [];
+		// reset references in LinkTrait
+		// $this->references = [];
 	}
 
 	/**
@@ -85,8 +85,8 @@ class Creole extends Parser
 		$content = [];
 		for ($i = $current, $count = count($lines); $i < $count; $i++) {
 			$line = $lines[$i];
-			if (!empty($line) && ltrim($line) !== '' &&
-				!($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) /*&&
+			if (!empty($line) && ltrim($line) !== '' /* &&
+				!($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) &&
 				!$this->identifyHeadline($line, $lines, $i)*/)
 			{
 				$content[] = $line;
@@ -109,7 +109,7 @@ class Creole extends Parser
 	 */
 	protected function parseEscape($text)
 	{
-		if (isset($text[1]) && in_array($text[1], $this->escapeCharacters)) {
+		if (isset($text[1]) /* && in_array($text[1], $this->escapeCharacters) */ ) {
 			return [['text', $text[1]], 2];
 		}
 		return [['text', $text[0]], 1];
