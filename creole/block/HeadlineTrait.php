@@ -36,8 +36,9 @@ trait HeadlineTrait
 			}
 			$block = [
 				'headline',
-                'content' => $this->parseInline(trim($lines[$current], "= \t")),
-                //'content' => ['text', trim($lines[$current], "= \t")],
+                // doesn't parse header line content.
+                // 'content' => $this->parseInline(trim($lines[$current], "= \t")),
+                'content' => [['text', trim($lines[$current], "= \t")]],
 				'level' => $level,
 			];
 			return [$block, $current];
