@@ -14,9 +14,9 @@ namespace cebe\markdown;
  */
 class Creole extends Parser
 {
-//	// include block element parsing using traits
+// include block element parsing using traits
 //	use block\CodeTrait;
-//	use block\HeadlineTrait;
+	use creole\block\HeadlineTrait;
 //	use block\HtmlTrait {
 //		parseInlineHtml as private;
 //	}
