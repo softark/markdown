@@ -199,4 +199,7 @@ REGEXP;
         . ' alt="' . htmlspecialchars($block['text'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"'
         . ($this->html5 ? '>' : ' />');
     }
+
+    abstract protected function parseInline($text);
+    abstract protected function renderAbsy($absy);
 }

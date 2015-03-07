@@ -26,7 +26,7 @@ class Creole extends Parser
 //		consumeUl as protected consumeBUl;
 //	}
 //	use block\QuoteTrait;
-//	use block\RuleTrait {
+	use creole\block\RuleTrait; // {
 //		// Check Hr before checking lists
 //		identifyHr as protected identifyAHr;
 //		consumeHr as protected consumeAHr;
@@ -49,30 +49,8 @@ class Creole extends Parser
 	 * as markdown.
 	 */
 	protected $escapeCharacters = [
-//		'\\', // backslash
-//		'`', // backtick
-//		'*', // asterisk
-//		'_', // underscore
-//		'{', '}', // curly braces
-//		'[', ']', // square brackets
-//		'(', ')', // parentheses
-//		'#', // hash mark
-//		'+', // plus sign
-//		'-', // minus sign (hyphen)
-//		'.', // dot
-//		'!', // exclamation mark
-//		'<', '>',
 	];
 
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function prepare()
-	{
-		// reset references in LinkTrait
-		// $this->references = [];
-	}
 
 	/**
 	 * Consume lines for a paragraph
@@ -87,8 +65,9 @@ class Creole extends Parser
 			$line = $lines[$i];
 			if (!empty($line) && ltrim($line) !== '' &&
 				/* !($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) && */
-				!$this->identifyHeadline($line, $lines, $i))
-			{
+				!$this->identifyHeadline($line, $lines, $i) &&
+				!$this->identifyHr($line, $lines, $i)
+			) {
 				$content[] = $line;
 			} else {
 				break;
