@@ -10,9 +10,9 @@ namespace cebe\markdown\tests;
 use cebe\markdown\Creole;
 
 /**
- * Base class for all Test cases.
+ * Test case for the creole parser.
  *
- * @author Carsten Brandt <mail@cebe.cc>
+ * @author Carsten Brandt <mail@cebe.cc>, Nobuo Kihara <softark@gmail.com>
  */
 class CreoleTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,14 @@ class CreoleTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function createCreole()
 	{
-		return new Creole();
+		$creole = new Creole();
+		$creole->wikiUrl = 'http://www.example.com/wiki/';
+		$creole->externalWikis = [
+			'Wiki-A' => 'http://www.wiki-a.com/wiki-a/',
+			'Wiki-B' => 'https://www.wiki-b.com/wiki-b/',
+		];
+
+		return $creole;
 	}
 
 	/**

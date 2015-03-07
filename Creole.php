@@ -35,7 +35,7 @@ class Creole extends Parser
 // include inline element parsing using traits
 //	use inline\CodeTrait;
 	use creole\inline\EmphStrongTrait;
-//	use inline\LinkTrait;
+	use creole\inline\LinkTrait;
 
 	/**
 	 * @var boolean whether to format markup according to HTML5 spec.
@@ -85,9 +85,9 @@ class Creole extends Parser
 		$content = [];
 		for ($i = $current, $count = count($lines); $i < $count; $i++) {
 			$line = $lines[$i];
-			if (!empty($line) && ltrim($line) !== '' /* &&
-				!($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) &&
-				!$this->identifyHeadline($line, $lines, $i)*/)
+			if (!empty($line) && ltrim($line) !== '' &&
+				/* !($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) && */
+				!$this->identifyHeadline($line, $lines, $i))
 			{
 				$content[] = $line;
 			} else {
@@ -109,7 +109,7 @@ class Creole extends Parser
 	 */
 	protected function parseEscape($text)
 	{
-		if (isset($text[1]) /* && in_array($text[1], $this->escapeCharacters) */ ) {
+		if (isset($text[1])) {
 			return [['text', $text[1]], 2];
 		}
 		return [['text', $text[0]], 1];
@@ -118,10 +118,13 @@ class Creole extends Parser
     /**
 	 * @inheritdocs
 	 *
-	 * Parses a newline indicated by two backslashes on the end of a creole line.
+	 * Parses a newline indicated by two backslashes.
 	 */
 	protected function renderText($text)
 	{
-		return str_replace("\\\\\n", $this->html5 ? "<br>\n" : "<br />\n", $text[1]);
+		return str_replace(
+			['&', '<', '>', "\\\\"],
+			['&amp;', '&lt;', '&gt;', $this->html5 ? "<br>" : "<br />"],
+			$text[1]);
 	}
 }
