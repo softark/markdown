@@ -43,3 +43,7 @@ no link to <~http://www.google.com/>
 url with tilde ... http://www.rawlink.org/~user/
 
 emphasized ... //url: http://www.cebe.cc///
+
+emphasized ... //url: https://www.cebe.cc///
+
+emphasized ... //url: ftp://www.cebe.cc///
