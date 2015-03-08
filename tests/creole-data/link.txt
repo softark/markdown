@@ -6,6 +6,8 @@ This is a [[link|]].
 
 [[http://www.wikicreole.org/]]
 
+[[http://www.wikicreole.org/]], [[http://www.wikicreole.org/]]
+
 [[http://www.wikicreole.org/|Visit the WikiCreole website]]
 
 [[Weird Stuff|**Weird** //Stuff//]]
@@ -13,6 +15,18 @@ This is a [[link|]].
 [[Wiki-A:WikiFamily]]
 
 [[Ohana:WikiFamily]]
+
+This is a //[[link]]//.
+
+**This is a //[[link]]//**.
+
+//[[http://www.wikicreole.org/]]//
+
+//[[http://www.wikicreole.org/]], [[http://www.wikicreole.org/]]//
+
+//[[http://www.wikicreole.org/|Visit the WikiCreole website]]//
+
+**[[http://www.wikicreole.org/|Visit the WikiCreole website]]**
 
 {{myimage.png|これは私の画像です。}}
 

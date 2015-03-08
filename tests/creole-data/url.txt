@@ -41,3 +41,5 @@ link to <http://www.google.com/>
 no link to <~http://www.google.com/>
 
 url with tilde ... http://www.rawlink.org/~user/
+
+emphasized ... //url: http://www.cebe.cc///

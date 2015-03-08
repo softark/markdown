@@ -36,7 +36,7 @@ trait EmphStrongTrait
 	 */
 	protected function parseEmph($text)
 	{
-		if (preg_match('/^\/\/(.+?)\/\//s', $text, $matches)) {
+		if (preg_match('/^\/\/(.+?)(?<!:)\/\/(?!\/)/s', $text, $matches)) {
 			return [
 				[
 					'emph',

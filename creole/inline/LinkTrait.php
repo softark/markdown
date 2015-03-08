@@ -86,7 +86,7 @@ REGEXP;
      */
     protected function parseLink($markdown)
     {
-        if (!in_array('parseLink', array_slice($this->context, 1)) && preg_match('/^\[\[(.*)\]\]/', $markdown, $matches)) {
+        if (!in_array('parseLink', array_slice($this->context, 1)) && preg_match('/^\[\[(.*?)\]\]/', $markdown, $matches)) {
             // '[[link]]
             if (preg_match('/^(.+?)\|(.*)$/', $matches[1], $parts)) {
                 // 'link|text' pattern
@@ -144,7 +144,7 @@ REGEXP;
      */
     protected function parseImage($markdown)
     {
-        if (preg_match('/^\{\{(.*)\}\}/', $markdown, $matches)) {
+        if (preg_match('/^\{\{(.*?)\}\}/', $markdown, $matches)) {
             // '{{image}}
             if (preg_match('/^(.+?)\|(.*)$/', $matches[1], $parts)) {
                 // 'image|text' pattern
