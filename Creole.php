@@ -20,7 +20,7 @@ class Creole extends Parser
 //	use block\HtmlTrait {
 //		parseInlineHtml as private;
 //	}
-//	use block\ListTrait {
+	use creole\block\ListTrait;
 //		// Check Ul List before headline
 //		identifyUl as protected identifyBUl;
 //		consumeUl as protected consumeBUl;
@@ -66,7 +66,9 @@ class Creole extends Parser
 			if (!empty($line) && ltrim($line) !== '' &&
 				/* !($line[0] === "\t" || $line[0] === " " && strncmp($line, '    ', 4) === 0) && */
 				!$this->identifyHeadline($line, $lines, $i) &&
-				!$this->identifyHr($line, $lines, $i)
+				!$this->identifyHr($line, $lines, $i) &&
+				!$this->identifyUl($line, $lines, $i) &&
+				!$this->identifyOl($line, $lines, $i)
 			) {
 				$content[] = $line;
 			} else {
