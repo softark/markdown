@@ -26,7 +26,7 @@ class Creole extends Parser
 	use creole\block\RuleTrait;
 
 // include inline element parsing using traits
-//	use inline\CodeTrait;
+	use creole\inline\CodeTrait;
 	use creole\inline\EmphStrongTrait;
 	use creole\inline\LinkTrait;
 

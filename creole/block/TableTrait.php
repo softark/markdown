@@ -25,6 +25,15 @@ trait TableTrait
 	 */
 	protected function consumeTable($lines, $current)
 	{
+        $pattern =<<< REGEXP
+/(?<=\|)(
+    [^\|]*?{{{.*?}}}[^\|]*|
+    ([^\|]*~\|[^\|]*)+|
+    [^\|]*
+)(?=\|)/x
+REGEXP;
+        // regexp pattern should be in the order of from specific/long/complicated to general/short/simple.
+
 		$block = [
 			'table',
 			'rows' => [],
@@ -35,7 +44,8 @@ trait TableTrait
 				break;
 			}
             $header = $i === $current;
-            $texts = preg_split('/(?<!~)\|/', trim($line, '| '));
+            preg_match_all($pattern, '|' . trim($line, '| ') . '|', $matches);
+            $texts = $matches[0];
             $row = [];
             foreach ($texts as $text) {
                 $text = trim($text);
