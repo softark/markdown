@@ -17,7 +17,7 @@ defined('ENT_HTML401') || define('ENT_HTML401', 0);
 trait LinkTrait
 {
     /**
-     * @var string the url of the wiki which is used to render the internal links.
+     * @var string the base url of the wiki which is used for the internal links.
      */
     public $wikiUrl = '';
 
@@ -64,7 +64,7 @@ REGEXP;
     }
 
     /**
-     * Parses urls starting with a tilde (~) into plain text.
+     * Parses urls starting with a tilde (~) into a plain text.
      * @marker ~http
      * @marker ~ftp
      */
@@ -81,7 +81,7 @@ REGEXP;
     }
 
     /**
-     * Parses a link indicated by `[[`.
+     * Parses a link: [[ ... ]]
      * @marker [[
      */
     protected function parseLink($markdown)
@@ -98,7 +98,7 @@ REGEXP;
                 $text = $matches[1];
             }
             if (!preg_match('/^(https?|ftp):\/\//', $url)) {
-                // not an external link
+                // not an external link, i.e., a wiki link
                 if (preg_match('/^(.*):(.*)$/', $url, $urlMatches)) {
                     // inter wiki link
                     $extWiki = $urlMatches[1];
@@ -139,7 +139,7 @@ REGEXP;
     }
 
     /**
-     * Parses an image indicated by `{{`.
+     * Parses an image: {{ ... }}
      * @marker {{
      */
     protected function parseImage($markdown)

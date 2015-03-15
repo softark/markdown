@@ -13,12 +13,12 @@ namespace cebe\markdown\creole\inline;
 trait CodeTrait
 {
 	/**
-	 * Parses an inline code span  {{{ ... }}}
+	 * Parses an inline code span: {{{ ... }}}
 	 * @marker {{{
 	 */
 	protected function parseInlineCode($text)
 	{
-		if (preg_match('/^{{{(.+?)}}}/s', $text, $matches)) {
+		if (preg_match('/^{{{(.*?)}}}/s', $text, $matches)) {
 			return [
 				[
 					'inlineCode',

@@ -14,10 +14,10 @@ trait RuleTrait
 {
 	/**
 	 * identify a line as a horizontal rule.
+	 * The exact string of '----', with possible white spaces before and/or after it
 	 */
 	protected function identifyHr($line)
 	{
-		// '----' makes a hr, with possible white spaces before or after it.
 		return preg_match('/^\s*----\s*$/', $line);
 	}
 

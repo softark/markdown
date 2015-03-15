@@ -13,12 +13,20 @@ namespace cebe\markdown\creole\inline;
 trait EmphStrongTrait
 {
 	/**
-	 * Parses strong element.
+	 * Parses strong element: ** ... **
 	 * @marker **
 	 */
 	protected function parseStrong($text)
 	{
-		if (preg_match('/^\*\*(.+?)\*\*/s', $text, $matches)) {
+		// must take care of code element(s)
+		$pattern =<<< REGEXP
+/^\*\*(
+(.*{{{.*?}}}.*)+?|
+.+?
+)\*\*/sx
+REGEXP;
+
+		if (preg_match($pattern, $text, $matches)) {
 			return [
 				[
 					'strong',
@@ -31,12 +39,19 @@ trait EmphStrongTrait
 	}
 
 	/**
-	 * Parses strong element.
+	 * Parses strong element: // ... //
 	 * @marker //
 	 */
 	protected function parseEmph($text)
 	{
-		if (preg_match('/^\/\/(.+?)(?<!http:|(?<=h)ttps:|(?<=f)tp:)\/\/(?!\/)/s', $text, $matches)) {
+		// must take care of code elements, 'http://', 'https://', and 'ftp://'
+		$pattern =<<< REGEXP
+/^\/\/(
+(.*{{{.*?}}}.*)+?|
+.+?
+)(?<!http:|(?<=h)ttps:|(?<=f)tp:)\/\/(?!\/)/sx
+REGEXP;
+		if (preg_match($pattern, $text, $matches)) {
 			return [
 				[
 					'emph',

@@ -23,7 +23,8 @@ trait ListTrait
 	private $_nestedListTypes = [];
 
 	/**
-	 * identify a line as the beginning of an ordered list.
+	 * Identify a line as the beginning of an ordered list.
+	 * It should start with '#', with leading white spaces permitted.
 	 */
 	protected function identifyOl($line)
 	{
@@ -31,7 +32,8 @@ trait ListTrait
 	}
 
 	/**
-	 * identify a line as the beginning of an unordered list.
+	 * Identify a line as the beginning of an unordered list.
+	 * It should start with '*', with leading white spaces permitted.
 	 */
 	protected function identifyUl($line)
 	{
@@ -69,12 +71,9 @@ trait ListTrait
 		if ($line[0] !== $siblingMarker) {
 			return false;
 		}
-		if (($siblingMarker === '#' && preg_match('/^#{' . $this->_listDepth . '}[^#]+/', $line)) ||
-			($siblingMarker === '*' && preg_match('/^\*{' . $this->_listDepth . '}[^\*]+/', $line))
-		) {
-			return true;
-		}
-		return false;
+		return
+			($siblingMarker === '#' && preg_match('/^#{' . $this->_listDepth . '}[^#]+/', $line)) ||
+			($siblingMarker === '*' && preg_match('/^\*{' . $this->_listDepth . '}[^\*]+/', $line));
 	}
 
 	/**
@@ -114,6 +113,7 @@ trait ListTrait
 		$pattern = $type === 'ul' ? '/^\*{' . $this->_listDepth . '}([^\*]+.*|)$/' : '/^#{' . $this->_listDepth . '}([^#]+.*|)$/';
 		for ($i = $current, $count = count($lines); $i < $count; $i++) {
 			$line = ltrim($lines[$i]);
+			// A list ends with a blank new line, other block elements, a parent item, or a sibling list.
 			if ($line === '' ||
 				$this->identifyHeadline($line, $lines, $i) ||
                 $this->identifyHr($line, $lines, $i) ||
@@ -126,10 +126,11 @@ trait ListTrait
 				break;
 			}
 			if (preg_match($pattern, $line)) {
-				// match list marker on the beginning of the line
+				// match list marker on the beginning of the line ... the next item begins
 				$line = ltrim(substr($line, $this->_listDepth));
 				$block['items'][++$item][] = $line;
 			} else {
+				// child list?
 				$this->_listDepth++;
 				if ($this->identifyOl($line)) {
 					list($childBlock, $i) = $this->consumeOl($lines, $i);
@@ -138,6 +139,7 @@ trait ListTrait
 					list($childBlock, $i) = $this->consumeUl($lines, $i);
 					$block['items'][$item][] = $childBlock;
 				} else {
+					// the continuing content of the current item
 					$line = ltrim($line);
 					$block['items'][$item][] = $line;
 				}
@@ -152,7 +154,9 @@ trait ListTrait
 				if (!isset($line['list'])) {
 					$texts[] = $line;
 				} else {
+					// child list
 					if (!empty($texts)) {
+						// text before child list
 						$content = array_merge($content, $this->parseInline(implode("\n", $texts)));
 						$texts = [];
 					}

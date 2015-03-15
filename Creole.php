@@ -17,12 +17,8 @@ class Creole extends Parser
 // include block element parsing using traits
 //	use block\CodeTrait;
 	use creole\block\HeadlineTrait;
-//	use block\HtmlTrait {
-//		parseInlineHtml as private;
-//	}
     use creole\block\ListTrait;
     use creole\block\TableTrait;
-//	use block\QuoteTrait;
 	use creole\block\RuleTrait;
 
 // include inline element parsing using traits
@@ -37,18 +33,9 @@ class Creole extends Parser
 	public $html5 = false;
 
 	/**
-	 * @var array these are "escapeable" characters. When using one of these prefixed with a
-	 * backslash, the character will be outputted without the backslash and is not interpreted
-	 * as markdown.
-	 */
-	protected $escapeCharacters = [
-	];
-
-
-	/**
 	 * Consume lines for a paragraph
 	 *
-	 * Allow headlines and code to break paragraphs
+	 * Allow block elements to break paragraphs
 	 */
 	protected function consumeParagraph($lines, $current)
 	{
@@ -79,6 +66,7 @@ class Creole extends Parser
 	/**
 	 * Parses escaped special characters.
 	 * Creole uses tilde (~) for the escaping marker.
+	 * It should escape the next character whatever it would be.
 	 * @marker ~
 	 */
 	protected function parseEscape($text)
@@ -92,7 +80,8 @@ class Creole extends Parser
     /**
 	 * @inheritdocs
 	 *
-	 * Parses a newline indicated by two backslashes.
+	 * Parses a newline indicated by two backslashes, and
+	 * escape '&', '<', and '>'.
 	 */
 	protected function renderText($text)
 	{

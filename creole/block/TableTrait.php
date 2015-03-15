@@ -27,8 +27,8 @@ trait TableTrait
 	{
         $pattern =<<< REGEXP
 /(?<=\|)(
-    [^\|]*?{{{.*?}}}[^\|]*|
-    ([^\|]*~\|[^\|]*)+|
+    ([^\|]*?{{{.*?}}}[^\|]*?)+|
+    ([^\|]*~\|[^\|]*?)+|
     [^\|]*
 )(?=\|)/x
 REGEXP;
@@ -45,9 +45,8 @@ REGEXP;
 			}
             $header = $i === $current;
             preg_match_all($pattern, '|' . trim($line, '| ') . '|', $matches);
-            $texts = $matches[0];
             $row = [];
-            foreach ($texts as $text) {
+            foreach ($matches[0] as $text) {
                 $text = trim($text);
                 if (isset($text[0]) && $text[0] === '=') {
                     $cell['tag'] = 'th';
@@ -84,7 +83,11 @@ REGEXP;
             $content .= "<tr>\n";
             foreach ($row['cells'] as $cell) {
                 $tag = $cell['tag'];
-                $content .= "<$tag>" . $this->renderAbsy($cell['text']) . "</$tag>\n";
+                $cellText = $this->renderAbsy($cell['text']);
+                if (empty($cellText)) {
+                    $cellText = '&nbsp;';
+                }
+                $content .= "<$tag>$cellText</$tag>\n";
             }
             $content .= "</tr>\n";
             if ($first) {

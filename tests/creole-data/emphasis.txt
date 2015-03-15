@@ -27,3 +27,7 @@ This is //EMPH and partially **STRONG** inside//.
 This **should //somewhat** fail//.
 
 This //should **somewhat// fail**, too.
+
+This //should be {{{//emphasized}}} //.
+
+This **should be {{{**strong}}} **.

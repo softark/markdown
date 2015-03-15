@@ -14,12 +14,14 @@ trait HeadlineTrait
 {
 	/**
 	 * identify a line as a headline
+	 * A headline always starts with a '=', with leading white spaces permitted.
 	 */
 	protected function identifyHeadline($line, $lines, $current)
 	{
+		$line = ltrim($line);
 		return (
 			// heading with =
-			$line[0] === '='
+			isset($line[0]) && $line[0] === '='
 		);
 	}
 
@@ -28,22 +30,18 @@ trait HeadlineTrait
 	 */
 	protected function consumeHeadline($lines, $current)
 	{
-		if ($lines[$current][0] === '=') {
-			// ATX headline
-			$level = 1;
-			while (isset($lines[$current][$level]) && $lines[$current][$level] === '=' && $level < 6) {
-				$level++;
-			}
-			$block = [
-				'headline',
-                // doesn't parse headline content.
-				// 'content' => [['text', trim($lines[$current], "= \t")]],
-				// parse headline content.
-                'content' => $this->parseInline(trim($lines[$current], "= \t")),
-				'level' => $level,
-			];
-			return [$block, $current];
+		$line = trim($lines[$current]);
+		$level = 1;
+		while (isset($line[$level]) && $line[$level] === '=' && $level < 6) {
+			$level++;
 		}
+		$block = [
+			'headline',
+			// parse headline content. The leading and trailing '='s are removed.
+			'content' => $this->parseInline(trim($line, " \t=")),
+			'level' => $level,
+		];
+		return [$block, $current];
 	}
 
 	/**
