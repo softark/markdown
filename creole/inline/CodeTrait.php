@@ -18,7 +18,7 @@ trait CodeTrait
 	 */
 	protected function parseInlineCode($text)
 	{
-		if (preg_match('/^{{{(.*?)}}}/s', $text, $matches)) {
+		if (preg_match('/^{{{(.*?}*)}}}/s', $text, $matches)) {
 			return [
 				[
 					'inlineCode',

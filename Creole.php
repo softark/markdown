@@ -15,7 +15,7 @@ namespace cebe\markdown;
 class Creole extends Parser
 {
 // include block element parsing using traits
-//	use block\CodeTrait;
+	use creole\block\CodeTrait;
 	use creole\block\HeadlineTrait;
     use creole\block\ListTrait;
     use creole\block\TableTrait;
@@ -48,7 +48,8 @@ class Creole extends Parser
 				!$this->identifyHr($line, $lines, $i) &&
 				!$this->identifyUl($line, $lines, $i) &&
                 !$this->identifyOl($line, $lines, $i) &&
-                !$this->identifyTable($line, $lines, $i)
+				!$this->identifyTable($line, $lines, $i) &&
+				!$this->identifyCode($line, $lines, $i)
 			) {
 				$content[] = $line;
 			} else {

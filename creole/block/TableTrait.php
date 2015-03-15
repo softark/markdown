@@ -47,13 +47,12 @@ REGEXP;
             preg_match_all($pattern, '|' . trim($line, '| ') . '|', $matches);
             $row = [];
             foreach ($matches[0] as $text) {
-                $text = trim($text);
                 if (isset($text[0]) && $text[0] === '=') {
                     $cell['tag'] = 'th';
-                    $cell['text'] = $this->parseInline(substr($text, 1));
+                    $cell['text'] = $this->parseInline(trim(substr($text, 1)));
                 } else {
                     $cell['tag'] = 'td';
-                    $cell['text'] = $this->parseInline($text);
+                    $cell['text'] = $this->parseInline(trim($text));
                     $header = false;
                 }
                 $row['cells'][] = $cell;

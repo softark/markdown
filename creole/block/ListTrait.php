@@ -117,7 +117,8 @@ trait ListTrait
 			if ($line === '' ||
 				$this->identifyHeadline($line, $lines, $i) ||
                 $this->identifyHr($line, $lines, $i) ||
-                $this->identifyTable($line, $lines, $i) ||
+				$this->identifyTable($line, $lines, $i) ||
+				$this->identifyCode($line, $lines, $i) ||
 				$this->isParentItem($line) ||
 				$this->isSiblingItem($line)
 			) {
