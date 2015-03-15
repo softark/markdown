@@ -116,7 +116,8 @@ trait ListTrait
 			$line = ltrim($lines[$i]);
 			if ($line === '' ||
 				$this->identifyHeadline($line, $lines, $i) ||
-				$this->identifyHr($line, $lines, $i) ||
+                $this->identifyHr($line, $lines, $i) ||
+                $this->identifyTable($line, $lines, $i) ||
 				$this->isParentItem($line) ||
 				$this->isSiblingItem($line)
 			) {
@@ -174,7 +175,6 @@ trait ListTrait
 	{
 		$type = $block['list'];
 		$output = "<$type>\n";
-
 		foreach ($block['items'] as $item => $itemLines) {
 			$output .= '<li>' . $this->renderAbsy($itemLines). "</li>\n";
 		}
